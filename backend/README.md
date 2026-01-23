@@ -7,7 +7,7 @@ A RAG (Retrieval-Augmented Generation) chatbot that answers questions about your
 ## ARCHITECTURE DIAGRAM
 
 ```
-                            YOUR ART WEBSITE
+                             ART WEBSITE
     ┌────────────────────────────────────────────────────────────┐
     │                                                            │
     │   ┌──────────────────────────────────────────────────┐    │
@@ -198,58 +198,3 @@ Example:
 
 ---
 
-## QUICK START (LOCAL TESTING)
-
-```bash
-# 1. Navigate to backend folder
-cd /Users/raginichatterjee/Desktop/Website/backend
-
-# 2. Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Create .env file with your Groq API key
-echo "GROQ_API_KEY=your_key_here" > .env
-
-# 5. Run the server
-python app.py
-
-# Server runs at http://localhost:8000
-# Open your website and test the chat!
-```
-
----
-
-## DEPLOYMENT TO RENDER (FREE)
-
-See the main instructions in the project root.
-
----
-
-## API ENDPOINTS
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Health check |
-| `/health` | GET | Health check with stats |
-| `/chat` | POST | Send message, get AI response |
-| `/reindex` | POST | Re-index artwork documents |
-| `/stats` | GET | Get database statistics |
-
----
-
-## TROUBLESHOOTING
-
-**"GROQ_API_KEY not set"**
-- Make sure you created a `.env` file with your Groq API key
-
-**"No documents indexed"**
-- Check that your artwork HTML files are in the correct location
-- Call `/reindex` endpoint to manually refresh
-
-**"Connection refused"**
-- Make sure the backend server is running
-- Check the API_URL in chat.js matches your server address
