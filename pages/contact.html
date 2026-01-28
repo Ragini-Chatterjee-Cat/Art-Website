@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Contact Us - Inside the Paintbox
+        </title>
+        <link rel="icon" type="image/jpeg" href="../favicon.jpg">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,600,700" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <link href="../css/Contact.css" type="text/css" rel="stylesheet">
+        <link href="../css/Chat.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <header>
+        <div class="navbar">
+            <div class="dropdown">
+                <a class="dropbtn">Series</a>
+                <div class="dropdown-content">
+                    <a href="series/Portraits.html">Portraits</a>
+                    <a href="series/portraits-animals.html">Animal Portraits</a>
+                    <a href="series/Mythical.html">Mythical</a>
+                    <a href="series/Thoughts.html">Thoughts</a>
+                    <a href="series/Cam.html">Camera Series</a>
+                    <a href="series/diary-entries.html">Diary Entries</a>
+                    <a href="series/Fanart.html">Fanart</a>
+                    <a href="series/Cards.html">Cards</a>
+                </div>
+            </div>
+            <a class="btn-transperent" href="../Index.html">Home</a>
+            <a class="btn-transperent" href="about.html">About us</a>
+        </div>
+    </header>
+    <main>
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="thank.html">
+            <input type="hidden" name="form-name" value="contact">
+            <input type="hidden" name="bot-field">
+
+            <h1>CONTACT US.</h1>
+            <h6>e-mail: inthepaintbox@gmail.com</h6>
+
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Your email address" required>
+
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Subject">
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write something.." style="height:200px" required></textarea>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <br>
+        <div class="icon-bar" align="middle">
+            <a href="mailto:inthepaintbox@gmail.com"><i class="fa fa-envelope"></i></a>
+            <a href="https://www.instagram.com/ragini_chatterjee/"><i class="fa fa-instagram"></i></a>
+        </div>
+    </main>
+    <div class="chat-button" id="chatButton">
+        <i class="fa fa-comment"></i>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <h3>Get in Touch</h3>
+            <button class="chat-close" id="chatClose">&times;</button>
+        </div>
+        <div class="chat-body">
+            <div class="chat-message bot">
+                Hi! I'm Ragini. Feel free to ask about my artwork, commissions, or anything else!
+            </div>
+        </div>
+        <div class="chat-form">
+            <form id="chatForm">
+                <div class="chat-input-group">
+                    <input type="text" id="chatName" class="chat-input" placeholder="Your Name" required>
+                </div>
+                <div class="chat-input-group">
+                    <input type="email" id="chatEmail" class="chat-input" placeholder="Your Email" required>
+                </div>
+                <div class="chat-input-group">
+                    <textarea id="chatMessage" class="chat-input" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="chat-submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/chat.js"></script>
+    <script>
+        // Ensure redirect to thank you page after form submission
+        document.querySelector('form[name="contact"]').addEventListener('submit', function() {
+            setTimeout(function() {
+                window.location.href = 'thank.html';
+            }, 100);
+        });
+    </script>
+    </body>
+</html>

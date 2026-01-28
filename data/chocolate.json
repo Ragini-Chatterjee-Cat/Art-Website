@@ -1,0 +1,18 @@
+[
+  {"id": 1, "CocoaPercent": 70, "Rating": 3.5, "BeanType": "Criollo", "Origin": "Venezuela"},
+  {"id": 2, "CocoaPercent": 85, "Rating": 2.5, "BeanType": "Forastero", "Origin": "Ghana"},
+  {"id": 3, "CocoaPercent": 60, "Rating": 3.75, "BeanType": "Trinitario", "Origin": "Ecuador"},
+  {"id": 4, "CocoaPercent": 72, "Rating": 4.0, "BeanType": "Criollo", "Origin": "Madagascar"},
+  {"id": 5, "CocoaPercent": 80, "Rating": 2.75, "BeanType": "Forastero", "Origin": "Ivory Coast"},
+  {"id": 6, "CocoaPercent": 65, "Rating": 3.25, "BeanType": "Trinitario", "Origin": "Peru"},
+  {"id": 7, "CocoaPercent": 90, "Rating": 2.0, "BeanType": "Forastero", "Origin": "Brazil"},
+  {"id": 8, "CocoaPercent": 55, "Rating": 3.5, "BeanType": "Criollo", "Origin": "Venezuela"},
+  {"id": 9, "CocoaPercent": 78, "Rating": 3.0, "BeanType": "Trinitario", "Origin": "Dominican Republic"},
+  {"id": 10, "CocoaPercent": 68, "Rating": 4.0, "BeanType": "Criollo", "Origin": "Madagascar"},
+  {"id": 11, "CocoaPercent": 82, "Rating": 2.25, "BeanType": "Forastero", "Origin": "Ghana"},
+  {"id": 12, "CocoaPercent": 63, "Rating": 3.75, "BeanType": "Trinitario", "Origin": "Ecuador"},
+  {"id": 13, "CocoaPercent": 75, "Rating": 3.25, "BeanType": "Criollo", "Origin": "Peru"},
+  {"id": 14, "CocoaPercent": 88, "Rating": 2.5, "BeanType": "Forastero", "Origin": "Ivory Coast"},
+  {"id": 15, "CocoaPercent": 58, "Rating": 3.5, "BeanType": "Trinitario", "Origin": "Venezuela"},
+  {"id": 16, "CocoaPercent": 71, "Rating": 3.75, "BeanType": "Criollo", "Origin": "Madagascar"}
+]
