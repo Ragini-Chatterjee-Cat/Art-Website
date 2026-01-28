@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Unlock Thoughts</title>
+        <link rel="icon" type="image/jpeg" href="../favicon.jpg">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link href="../css/Page.css" type="text/css" rel="stylesheet">
+        <link href="../css/Chat.css" type="text/css" rel="stylesheet">
+        <link href="../css/hyperplane-game.css" type="text/css" rel="stylesheet">
+    </head>
+    <header>
+      <div class="navbar">
+            <div class="dropdown">
+                <a class="dropbtn">Series
+                </a>
+                <div class="dropdown-content">
+                  <a href="series/Portraits.html">Portraits</a>
+                  <a href="series/portraits-animals.html">Animal Portraits</a>
+                  <a href="series/Mythical.html">Mythical</a>
+                  <a href="series/Thoughts.html">Thoughts</a>
+                  <a href="series/Cam.html">Camera Series</a>
+                  <a href="series/diary-entries.html">Diary Entries</a>
+                  <a href="series/Fanart.html">Fanart</a>
+                  <a href="series/Cards.html">Cards</a>
+                </div>
+              </div>
+            <a class="btn-transperent" href="../Index.html" id='active'>Home</a>
+              <a class="btn-transperent" href="about.html">About us</a>
+            </div>
+        <intro class="game-intro">
+            <h6>To be trusted you must</h6>
+            <h1>SEPARATE YOUR THOUGHTS</h1>
+            <h6>Lift the data into 3D so a plane can divide it</h6>
+        </intro>
+    </header>
+
+    <main>
+        <div class="game-container">
+
+            <div class="game-sidebar">
+                <div class="game-instructions">
+                    <h4>How to Play</h4>
+                    <ul>
+                        <li>Points are shown in 3D space</li>
+                        <li>Dark and light points are mixed</li>
+                        <li>Write a formula to compute Z from X and Y</li>
+                        <li>Goal: dark points below Z=0, light above</li>
+                        <li>Drag the view to rotate in 3D</li>
+                    </ul>
+                </div>
+
+                <div class="game-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Separated</div>
+                        <div class="stat-value" id="isSeparable">No</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Dark</div>
+                        <div class="stat-value" id="darkCount">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Light</div>
+                        <div class="stat-value" id="lightCount">0</div>
+                    </div>
+                </div>
+
+                <button class="game-btn" onclick="resetGame()" style="width: 100%; margin: 10px 0;">Reset</button>
+            </div>
+
+            <div class="game-main">
+                <div id="levelIndicator"></div>
+                <div id="gameMessage"></div>
+
+                <div class="visualization-area">
+                    <div class="plot-container plot-3d">
+                        <h3>3D View <span class="drag-hint">(drag to rotate)</span></h3>
+                        <canvas id="plot3d"></canvas>
+                        <div class="legend">
+                            <span class="legend-item"><span class="legend-dot dark"></span> Dark (target: Z &lt; 0)</span>
+                            <span class="legend-item"><span class="legend-dot light"></span> Light (target: Z &gt; 0)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-editor-section">
+                    <h3>Your Z Formula</h3>
+                    <p class="editor-hint">Compute the Z coordinate from X and Y. Return an array like [z_value].</p>
+                    <div class="code-editor">
+                        <pre class="code-prefix">function transform(x, y) {</pre>
+                        <textarea id="userCode" rows="3" spellcheck="false">  // Your Z coordinate formula
+  // Example: return [x + y];
+  return [0];</textarea>
+                        <pre class="code-suffix">}</pre>
+                    </div>
+                    <div class="editor-buttons">
+                        <button class="game-btn primary" onclick="applyTransform()">Apply Transform</button>
+                        <button class="game-btn" onclick="showHint()">Hint</button>
+                    </div>
+                    <div id="errorMessage" class="error-message"></div>
+                </div>
+
+                <div class="data-preview" id="dataTable">
+                    <!-- Data table will be rendered here -->
+                </div>
+            </div>
+
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <a href="series/diary-entries.html" style="display: inline-block; padding: 15px 30px; background: transparent; border: 2px solid rgba(244, 233, 213, 0.5); border-radius: 8px; text-decoration: none; color: #f4e9d5; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.1rem; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(139, 115, 85, 0.4)'; this.style.borderColor='rgba(244, 233, 213, 0.7)'" onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(244, 233, 213, 0.5)'">Too old for this</a>
+        </div>
+
+        <br>
+        <div class="icon-bar" align="middle">
+            <a href="contact.html"><i class="fa fa-envelope"></i></a>
+            <a href="https://www.instagram.com/ragini_chatterjee/"><i class="fa fa-instagram"></i></a>
+        </div>
+    </main>
+
+    <script src="../js/hyperplane-game.js"></script>
+    </body>
+</html>

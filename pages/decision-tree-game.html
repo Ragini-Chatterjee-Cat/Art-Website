@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Unlock</title>
+        <link rel="icon" type="image/jpeg" href="../favicon.jpg">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link href="../css/Page.css" type="text/css" rel="stylesheet">
+        <link href="../css/Chat.css" type="text/css" rel="stylesheet">
+        <link href="../css/game.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <header>
+      <div class="navbar">
+            <div class="dropdown">
+                <a class="dropbtn">Series
+                </a>
+                <div class="dropdown-content">
+                  <a href="series/Portraits.html">Portraits</a>
+                  <a href="series/portraits-animals.html">Animal Portraits</a>
+                  <a href="series/Mythical.html">Mythical</a>
+                  <a href="series/Thoughts.html">Thoughts</a>
+                  <a href="series/Cam.html">Camera Series</a>
+                  <a href="series/diary-entries.html">Diary Entries</a>
+                  <a href="series/Fanart.html">Fanart</a>
+                  <a href="series/Cards.html">Cards</a>
+                </div>
+              </div>
+            <a class="btn-transperent" href="../Index.html" id='active'>Home</a>
+              <a class="btn-transperent" href="about.html">About us</a>
+            </div>
+        <div class="game-intro">
+            <h1>TO BE TRUSTED</h1>
+            <h6>I can only trust you if you know your chocolate</h6>
+        </div>
+    </header>
+
+    <main>
+        <div class="game-container">
+
+            <div class="game-sidebar">
+                <div class="game-instructions">
+                    <h4>How to Play</h4>
+                    <ul>
+                        <li>Classify chocolates as good or bad</li>
+                        <li>Click darker nodes to select</li>
+                        <li>Choose a feature to split</li>
+                        <li>Repeat until all nodes are pure</li>
+                        <li>Build the shortest tree!</li>
+                    </ul>
+                </div>
+
+                <div class="game-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Splits</div>
+                        <div class="stat-value" id="treeSplits">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Depth</div>
+                        <div class="stat-value" id="treeDepth">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Optimal</div>
+                        <div class="stat-value" id="optimalDepth">2</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Impure</div>
+                        <div class="stat-value" id="impureNodes">1</div>
+                    </div>
+                </div>
+
+                <button class="game-btn" onclick="resetGame()" style="width: 100%; margin: 10px 0;">Reset</button>
+            </div>
+
+            <div class="game-main">
+                <div id="gameMessage"></div>
+
+                <div class="feature-selection" id="featureButtons">
+                    <!-- Feature buttons will be rendered here -->
+                </div>
+
+                <div class="tree-container" id="treeVisualization">
+                    <!-- Tree SVG will be rendered here -->
+                </div>
+
+                <div class="data-preview" id="dataTable">
+                    <!-- Data table will be rendered here -->
+                </div>
+            </div>
+
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <a href="series/thoughts-trapped.html" style="display: inline-block; padding: 15px 30px; background: transparent; border: 2px solid rgba(244, 233, 213, 0.5); border-radius: 8px; text-decoration: none; color: #f4e9d5; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.1rem; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(139, 115, 85, 0.4)'; this.style.borderColor='rgba(244, 233, 213, 0.7)'" onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(244, 233, 213, 0.5)'">Too old for this</a>
+        </div>
+
+        <br>
+        <div class="icon-bar" align="middle">
+            <a href="contact.html"><i class="fa fa-envelope"></i></a>
+            <a href="https://www.instagram.com/ragini_chatterjee/"><i class="fa fa-instagram"></i></a>
+        </div>
+    </main>
+
+    <script src="../js/decision-tree-game.js"></script>
+    </body>
+</html>

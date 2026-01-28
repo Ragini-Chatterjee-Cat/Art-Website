@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Inside the paintbox.
+        </title>
+        <link rel="icon" type="image/jpeg" href="favicon.jpg">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--The style sheet for the icons that when clicked on lead to other social media avenues-->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link href="css/Page.css" type="text/css" rel="stylesheet">
+        <link href="css/Chat.css" type="text/css" rel="stylesheet">
+    </head>
+    <header>
+      <div class="navbar">
+            <div class="dropdown">
+                <a class="dropbtn">Series
+                </a>
+                <div class="dropdown-content">
+                  <a href="pages/series/Portraits.html">Portraits</a>
+                  <a href="pages/series/portraits-animals.html">Animal Portraits</a>
+                  <a href="pages/series/Mythical.html">Mythical</a>
+                  <a href="pages/series/Thoughts.html">Thoughts</a>
+                  <a href="pages/series/Cam.html">Camera Series</a>
+                  <a href="pages/series/diary-entries.html">Diary Entries</a>
+                  <a href="pages/series/Fanart.html">Fanart</a>
+                  <a href="pages/series/Cards.html">Cards</a>
+                </div>
+              </div>
+            <a class="btn-transperent" href="Index.html" id='active'>Home</a>
+              <a class="btn-transperent" href="pages/about.html">About us</a>
+            </div>
+        <intro>
+                <h1>INSIDE THE PAINTBOX.</h1>
+                <h6>RAGINI CHATTERJEE IS A PARIS/BANGALORE-BASED ARTIST.</h6>
+        </intro>
+    </header>
+
+    <main>
+
+            <button class="btn" onclick="window.location.href='pages/series/Portraits.html'">
+                <a href="pages/series/Portraits.html">
+                    <h4 style='padding-top: 50px;'>PORTRAITS</h4>
+                    <p></p>
+                </a>
+                <img src="images/artworks/Portraits/Custom/Peeping_through_the_ivy.jpg" alt='Portraits' id="Byun"/>
+            </button>
+
+            <button class="btn" onclick="window.location.href='pages/series/portraits-animals.html'" id='diff'>
+                <img src="images/artworks/Animal%20Portraits/Lucky_Panda.png" alt='Animal Portraits' id="Byun"/>
+                <a href="pages/series/portraits-animals.html">
+                    <h4 style='padding-top: 50px;'>ANIMAL PORTRAITS</h4>
+                    <p></p>
+                </a>
+            </button>
+
+            <button class="btn" onclick="window.location.href='pages/series/Mythical.html'">
+                <a href="pages/series/Mythical.html">
+                    <h4 style='padding-top: 50px;'>MYTHICAL</h4>
+                    <p></p>
+                </a>
+                <img src="images/artworks/Mythical/icarus.jpg" alt='Mythical' id="Byun"/>
+            </button>
+
+            <button class="btn" onclick="window.location.href='pages/hyperplane-game.html'" id='diff'>
+                <img src="images/artworks/Thoughts/Whine.png" alt='Thoughts' id="Byun"/>
+                <a href="pages/series/Thoughts.html">
+                    <h4 style='padding-top: 50px;'>THOUGHTS</h4>
+                    <p></p>
+                </a>
+            </button>
+
+            <button class="btn" onclick="window.location.href='pages/series/Cam.html'">
+                <a href="pages/series/Cam.html">
+                    <h4 style='padding-top: 50px;'>CAMERA SERIES</h4>
+                    <p></p>
+                </a>
+                <img src="images/artworks/Camera_Series/cam2.jpeg" alt='Camera Series' id="Byun"/>
+            </button>
+
+            <button class="btn" onclick="window.location.href='pages/decision-tree-game.html'" id='diff'>
+                <img src="images/artworks/Diary_entries/Coffee.jpg" alt='Diary Entries' id="Byun"/>
+                <a href="pages/series/diary-entries.html">
+                    <h4 style='padding-top: 50px;'>DIARY ENTRIES</h4>
+                    <p></p>
+                </a>
+            </button>
+
+            <button class="btn" onclick="window.location.href='pages/series/Fanart.html'">
+                <a href="pages/series/Fanart.html">
+                    <h4 style='padding-top: 50px;'>FANART</h4>
+                    <p></p>
+                </a>
+                <img src="images/artworks/Fanart/Only_Murders(Fanart).png" alt='Fanart' id="Byun"/>
+            </button>
+
+            <button class="btn" onclick="window.location.href='pages/series/Cards.html'" id='diff'>
+                <img src="images/artworks/Cards/Happy_Birthday.png" alt='Cards' id="Byun"/>
+                <a href="pages/series/Cards.html">
+                    <h4 style='padding-top: 50px;'>CARDS</h4>
+                    <p></p>
+                </a>
+            </button>
+
+            <div class="icon-bar"align= "middle">
+                <a href="pages/contact.html"><i class="fa fa-envelope"></i></a>
+                <a href="https://www.instagram.com/ragini_chatterjee/"><i class="fa fa-instagram"></i></a>
+            </div>
+    </main>
+
+    <div class="chat-button" id="chatButton">
+        <i class="fa fa-comment"></i>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <h3>Get in Touch</h3>
+            <button class="chat-close" id="chatClose">&times;</button>
+        </div>
+        <div class="chat-body">
+            <div class="chat-message bot">
+                Hi! I'm Ragini. Feel free to ask about my artwork, commissions, or anything else!
+            </div>
+        </div>
+        <div class="chat-form">
+            <form id="chatForm">
+                <div class="chat-input-group">
+                    <input type="text" id="chatName" class="chat-input" placeholder="Your Name" required>
+                </div>
+                <div class="chat-input-group">
+                    <input type="email" id="chatEmail" class="chat-input" placeholder="Your Email" required>
+                </div>
+                <div class="chat-input-group">
+                    <textarea id="chatMessage" class="chat-input" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="chat-submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/chat.js"></script>
+    <script src="js/tilted-card.js"></script>
+    <br>
+</body>
+</div>
+</html>

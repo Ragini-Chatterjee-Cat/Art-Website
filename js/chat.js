@@ -8,7 +8,7 @@
 // ============================================
 // For local development: 'http://localhost:8000'
 // For production: Replace with your Railway URL
-const API_URL = 'http://localhost:8000';
+const API_URL = 'art-website-production.up.railway.app';
 // const API_URL = 'https://art-website-production.up.railway.app';
 // TODO: After Railway deployment, change to: 'https://your-app.up.railway.app'
 

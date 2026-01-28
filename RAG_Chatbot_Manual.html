@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside the Paintbox - RAG Chatbot Implementation Manual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+        }
+
+        /* Cover Page */
+        .cover {
+            text-align: center;
+            padding: 100px 20px;
+            page-break-after: always;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cover h1 {
+            font-size: 42px;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .cover .subtitle {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        .cover .project-name {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .cover .author {
+            font-size: 18px;
+            color: #888;
+            margin-top: 80px;
+        }
+
+        .cover .date {
+            font-size: 16px;
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            page-break-after: always;
+            padding: 40px 0;
+        }
+
+        .toc h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px dotted #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toc li.main {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .toc li.sub {
+            padding-left: 30px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Section Headers */
+        h2 {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin: 50px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a1a1a;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 22px;
+            color: #333;
+            margin: 35px 0 15px 0;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            font-size: 18px;
+            color: #444;
+            margin: 25px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Code blocks */
+        pre {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background: #fafafa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            white-space: pre;
+            overflow-x: auto;
+            page-break-inside: avoid;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #1a1a1a;
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0 10px 35px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        /* Step boxes */
+        .step {
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #1a1a1a;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: inline;
+        }
+
+        .step-content {
+            margin-top: 15px;
+            padding-left: 50px;
+        }
+
+        /* File tree */
+        .file-tree {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .file-tree .folder {
+            color: #66d9ef;
+        }
+
+        .file-tree .file {
+            color: #a6e22e;
+        }
+
+        .file-tree .created {
+            color: #4caf50;
+        }
+
+        /* Page breaks */
+        .page-break {
+            page-break-after: always;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .page-break {
+                page-break-after: always;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            pre, .diagram, table, .step {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Flowchart styling */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .flow-box {
+            background: white;
+            border: 2px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 15px 25px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .flow-box.highlight {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .flow-arrow {
+            font-size: 24px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- COVER PAGE -->
+    <div class="cover">
+        <h1>RAG CHATBOT</h1>
+        <p class="subtitle">Implementation Manual</p>
+        <p class="project-name">"Inside the Paintbox"</p>
+        <p style="font-size: 18px; color: #666;">An AI-Powered Art Assistant for Your Portfolio Website</p>
+        <p class="author">Prepared for: Ragini Chatterjee</p>
+        <p class="date">January 2026</p>
+    </div>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li class="main"><span>1. Introduction & Overview</span></li>
+            <li class="sub"><span>1.1 What is RAG?</span></li>
+            <li class="sub"><span>1.2 System Architecture</span></li>
+            <li class="sub"><span>1.3 Technology Stack</span></li>
+
+            <li class="main"><span>2. How It Works</span></li>
+            <li class="sub"><span>2.1 The RAG Pipeline</span></li>
+            <li class="sub"><span>2.2 Data Flow Diagram</span></li>
+            <li class="sub"><span>2.3 Component Explanations</span></li>
+
+            <li class="main"><span>3. Project Structure</span></li>
+            <li class="sub"><span>3.1 File Overview</span></li>
+            <li class="sub"><span>3.2 What Each File Does</span></li>
+
+            <li class="main"><span>4. Implementation Guide</span></li>
+            <li class="sub"><span>4.1 Phase 1: Get Groq API Key</span></li>
+            <li class="sub"><span>4.2 Phase 2: Local Testing</span></li>
+            <li class="sub"><span>4.3 Phase 3: Deploy Backend to Render</span></li>
+            <li class="sub"><span>4.4 Phase 4: Update Frontend</span></li>
+            <li class="sub"><span>4.5 Phase 5: Deploy to Netlify</span></li>
+
+            <li class="main"><span>5. Testing & Verification</span></li>
+
+            <li class="main"><span>6. Troubleshooting</span></li>
+
+            <li class="main"><span>7. Quick Reference</span></li>
+        </ul>
+    </div>
+
+    <!-- SECTION 1: INTRODUCTION -->
+    <h2>1. Introduction & Overview</h2>
+
+    <p>This manual provides complete instructions for implementing an AI-powered chatbot on your art portfolio website "Inside the Paintbox". The chatbot uses RAG (Retrieval-Augmented Generation) technology to answer visitor questions about your artwork intelligently and accurately.</p>
+
+    <h3>1.1 What is RAG?</h3>
+
+    <p><strong>RAG (Retrieval-Augmented Generation)</strong> is a technique that combines information retrieval with AI text generation. Instead of relying solely on an AI model's training data, RAG first searches your own documents (artwork descriptions) to find relevant information, then uses that context to generate accurate, personalized responses.</p>
+
+    <div class="info-box">
+        <strong>Why RAG for Your Art Website?</strong><br>
+        A standard AI chatbot doesn't know anything about YOUR specific paintings. RAG allows the AI to access your artwork descriptions, inspiration notes, and other content to provide accurate, personalized responses about your art.
+    </div>
+
+    <h4>Traditional Chatbot vs RAG Chatbot</h4>
+
+    <table>
+        <tr>
+            <th>Traditional Chatbot</th>
+            <th>RAG Chatbot (Your System)</th>
+        </tr>
+        <tr>
+            <td>Uses only general AI knowledge</td>
+            <td>Uses YOUR artwork descriptions + AI</td>
+        </tr>
+        <tr>
+            <td>Generic responses about art</td>
+            <td>Specific responses about YOUR paintings</td>
+        </tr>
+        <tr>
+            <td>Can't explain your inspiration</td>
+            <td>Explains exactly what inspired each piece</td>
+        </tr>
+        <tr>
+            <td>Doesn't know your series names</td>
+            <td>Knows all your series: Mythical, In Purple, etc.</td>
+        </tr>
+    </table>
+
+    <h3>1.2 System Architecture</h3>
+
+    <p>Your chatbot system consists of three main components hosted on different platforms:</p>
+
+    <div class="diagram">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           COMPLETE SYSTEM ARCHITECTURE                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+     VISITOR'S BROWSER                    YOUR INFRASTRUCTURE
+    ┌─────────────────┐
+    │                 │
+    │  Opens website  │                  ┌────────────────────────────────────┐
+    │       │         │                  │         NETLIFY (Free)             │
+    │       ▼         │    Request       │    Your Static Website Files       │
+    │  ┌─────────┐    │ ──────────────►  │                                    │
+    │  │ Website │    │                  │  • Index.html                      │
+    │  │ Loads   │    │  ◄────────────── │  • css/Page.css, Chat.css          │
+    │  └─────────┘    │    Response      │  • js/chat.js                      │
+    │       │         │                  │  • images/                         │
+    │       ▼         │                  │  • artworks/*.html                 │
+    │  Clicks Chat    │                  └────────────────────────────────────┘
+    │       │         │
+    │       ▼         │
+    │  ┌─────────┐    │                  ┌────────────────────────────────────┐
+    │  │ Types   │    │   POST /chat     │         RENDER (Free)              │
+    │  │ Question│────┼─────────────────►│      Python Backend API            │
+    │  └─────────┘    │                  │                                    │
+    │       │         │                  │  • FastAPI Server                  │
+    │       ▼         │                  │  • RAG Pipeline                    │
+    │  ┌─────────┐    │                  │  • ChromaDB (Vector Database)      │
+    │  │ Sees    │◄───┼──────────────────│  • Document Loader                 │
+    │  │ Answer  │    │   JSON Response  └───────────────┬────────────────────┘
+    │  └─────────┘    │                                  │
+    │                 │                                  │ API Call
+    └─────────────────┘                                  ▼
+                                         ┌────────────────────────────────────┐
+                                         │         GROQ API (Free)            │
+                                         │       Llama 3.3 70B Model          │
+                                         │                                    │
+                                         │  Generates intelligent responses   │
+                                         │  based on your artwork context     │
+                                         └────────────────────────────────────┘
+    </div>
+
+    <h3>1.3 Technology Stack</h3>
+
+    <p>All technologies used are <strong>100% FREE</strong>:</p>
+
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Technology</th>
+            <th>Purpose</th>
+            <th>Cost</th>
+        </tr>
+        <tr>
+            <td>Website Hosting</td>
+            <td>Netlify</td>
+            <td>Hosts your HTML/CSS/JS files</td>
+            <td>Free</td>
+        </tr>
+        <tr>
+            <td>Backend Hosting</td>
+            <td>Render</td>
+            <td>Runs Python API server</td>
+            <td>Free</td>
+        </tr>
+        <tr>
+            <td>API Framework</td>
+            <td>FastAPI</td>
+            <td>Handles HTTP requests</td>
+            <td>Free</td>
+        </tr>
+        <tr>
+            <td>Vector Database</td>
+            <td>ChromaDB</td>
+            <td>Stores & searches artwork embeddings</td>
+            <td>Free</td>
+        </tr>
+        <tr>
+            <td>Embeddings</td>
+            <td>HuggingFace (all-MiniLM-L6-v2)</td>
+            <td>Converts text to vectors</td>
+            <td>Free</td>
+        </tr>
+        <tr>
+            <td>LLM (AI Model)</td>
+            <td>Groq (Llama 3.3 70B)</td>
+            <td>Generates responses</td>
+            <td>Free</td>
+        </tr>
+    </table>
+
+    <div class="success-box">
+        <strong>Total Monthly Cost: $0</strong><br>
+        All services used have generous free tiers that are more than sufficient for an art portfolio website.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 2: HOW IT WORKS -->
+    <h2>2. How It Works</h2>
+
+    <h3>2.1 The RAG Pipeline</h3>
+
+    <p>When a visitor asks a question about your art, the system follows these steps:</p>
+
+    <div class="diagram">
+    STEP 1: QUESTION RECEIVED
+    ═══════════════════════════════════════════════════════════════════════════
+
+    Visitor asks: "What inspired the Voices painting?"
+                            │
+                            ▼
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                        STEP 2: EMBED THE QUESTION                        │
+    │                                                                          │
+    │   The question is converted into a numerical vector (embedding)          │
+    │   using the HuggingFace model. This allows mathematical comparison.      │
+    │                                                                          │
+    │   "What inspired Voices?" → [0.23, -0.45, 0.12, 0.67, -0.33, ...]       │
+    │                              (384 numbers representing the meaning)      │
+    └─────────────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                     STEP 3: SEARCH VECTOR DATABASE                       │
+    │                                                                          │
+    │   ChromaDB compares the question vector with all stored artwork          │
+    │   vectors to find the most similar (relevant) documents.                 │
+    │                                                                          │
+    │   Similarity Scores:                                                     │
+    │   ├── Voices.html      → 0.95 (95% match) ✓ SELECTED                    │
+    │   ├── Trapped.html     → 0.78 (78% match) ✓ SELECTED                    │
+    │   ├── Bare.html        → 0.71 (71% match) ✓ SELECTED                    │
+    │   ├── Flowers.html     → 0.45 (45% match)                               │
+    │   └── tiger-cub.html   → 0.32 (32% match)                               │
+    └─────────────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                      STEP 4: BUILD CONTEXT PROMPT                        │
+    │                                                                          │
+    │   The retrieved artwork descriptions are combined with the question      │
+    │   to create a prompt for the LLM.                                        │
+    │                                                                          │
+    │   ┌─────────────────────────────────────────────────────────────────┐   │
+    │   │ SYSTEM: You are an art assistant for Inside the Paintbox...     │   │
+    │   │                                                                  │   │
+    │   │ CONTEXT:                                                         │   │
+    │   │ Voices - Mixed Media on Paper. 11.7x16.5 inches.                │   │
+    │   │ This painting depicts a darker side to unbridled ambition...    │   │
+    │   │ The warm colours merge into deeper black...                      │   │
+    │   │ [More artwork details...]                                        │   │
+    │   │                                                                  │   │
+    │   │ QUESTION: What inspired the Voices painting?                     │   │
+    │   └─────────────────────────────────────────────────────────────────┘   │
+    └─────────────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                     STEP 5: GENERATE RESPONSE (LLM)                      │
+    │                                                                          │
+    │   Groq's Llama 3 model reads the context and generates a                │
+    │   knowledgeable, accurate response about YOUR artwork.                   │
+    │                                                                          │
+    │   Response: "Voices was inspired by the darker side of unbridled        │
+    │   ambition. Ragini uses warm tones to represent the passion for         │
+    │   life that drives ambition, which gradually merges into black,         │
+    │   symbolizing the despair that comes with constantly sacrificing        │
+    │   today for a better tomorrow. The face caged within represents         │
+    │   the numbness of leading an unhappy life, while the brain-shaped       │
+    │   cage suggests this prison is a construct of our own psyche."          │
+    └─────────────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+    ═══════════════════════════════════════════════════════════════════════════
+    STEP 6: RESPONSE DISPLAYED IN CHAT WIDGET
+    </div>
+
+    <h3>2.2 Data Flow Diagram</h3>
+
+    <div class="diagram">
+                                    USER INTERACTION FLOW
+
+    ┌──────────┐      ┌──────────┐      ┌──────────┐      ┌──────────┐
+    │  VISITOR │      │  NETLIFY │      │  RENDER  │      │   GROQ   │
+    │ (Browser)│      │ (Website)│      │(Backend) │      │  (LLM)   │
+    └────┬─────┘      └────┬─────┘      └────┬─────┘      └────┬─────┘
+         │                 │                 │                 │
+         │  1. Visit Site  │                 │                 │
+         │────────────────►│                 │                 │
+         │                 │                 │                 │
+         │  2. HTML/CSS/JS │                 │                 │
+         │◄────────────────│                 │                 │
+         │                 │                 │                 │
+         │  3. Click Chat Button             │                 │
+         │─────────────────────────────────► │                 │
+         │                 │                 │                 │
+         │  4. Type Question                 │                 │
+         │  "Tell me about Voices"           │                 │
+         │─────────────────────────────────► │                 │
+         │                 │                 │                 │
+         │                 │                 │  5. Search DB   │
+         │                 │                 │  Find relevant  │
+         │                 │                 │  artworks       │
+         │                 │                 │                 │
+         │                 │                 │  6. Send to LLM │
+         │                 │                 │────────────────►│
+         │                 │                 │                 │
+         │                 │                 │  7. AI Response │
+         │                 │                 │◄────────────────│
+         │                 │                 │                 │
+         │  8. Display Answer                │                 │
+         │◄───────────────────────────────── │                 │
+         │                 │                 │                 │
+         ▼                 ▼                 ▼                 ▼
+    </div>
+
+    <h3>2.3 Component Explanations</h3>
+
+    <h4>Vector Embeddings (What are they?)</h4>
+    <p>Embeddings are numerical representations of text that capture semantic meaning. Similar texts have similar embeddings. This allows the system to find artwork descriptions that are semantically related to a question, even if they don't share exact words.</p>
+
+    <div class="info-box">
+        <strong>Example:</strong><br>
+        "What inspired Voices?" and "Tell me about the Voices painting" have different words but similar embeddings because they mean similar things. The system finds relevant content based on meaning, not just keyword matching.
+    </div>
+
+    <h4>Vector Database (ChromaDB)</h4>
+    <p>ChromaDB stores your artwork descriptions as vectors and enables fast similarity searches. When indexed, each artwork page becomes a searchable entry that can be retrieved when relevant questions are asked.</p>
+
+    <h4>Large Language Model (Llama 3 via Groq)</h4>
+    <p>The LLM is the "brain" that generates human-like responses. Groq provides free access to Meta's Llama 3.3 70B model, which is powerful enough to understand context and generate articulate responses about your artwork.</p>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 3: PROJECT STRUCTURE -->
+    <h2>3. Project Structure</h2>
+
+    <h3>3.1 File Overview</h3>
+
+    <p>Here's your complete project structure with the new backend files:</p>
+
+    <div class="file-tree">
+Website/
+│
+├── <span class="folder">backend/</span>                    <span class="created">← NEW FOLDER (Backend API)</span>
+│   ├── <span class="file">app.py</span>                   <span class="created">← FastAPI server</span>
+│   ├── <span class="file">rag.py</span>                   <span class="created">← RAG logic</span>
+│   ├── <span class="file">document_loader.py</span>       <span class="created">← Extracts artwork info</span>
+│   ├── <span class="file">requirements.txt</span>         <span class="created">← Python dependencies</span>
+│   ├── <span class="file">.env.example</span>             <span class="created">← Example environment file</span>
+│   └── <span class="file">README.md</span>                <span class="created">← Backend documentation</span>
+│
+├── <span class="folder">artworks/</span>                   ← Your artwork HTML pages
+│   ├── Voices.html
+│   ├── Bibbity.html
+│   ├── Trapped.html
+│   └── ... (other artworks)
+│
+├── <span class="folder">css/</span>
+│   ├── Page.css
+│   ├── Chat.css                 ← Chat widget styles
+│   └── ...
+│
+├── <span class="folder">js/</span>
+│   └── <span class="file">chat.js</span>                  <span class="created">← UPDATED (AI chat functionality)</span>
+│
+├── <span class="folder">images/</span>
+│   └── ...
+│
+├── <span class="folder">pages/</span>
+│   ├── about.html
+│   ├── contact.html
+│   └── <span class="folder">series/</span>
+│       └── ... (series pages)
+│
+├── Index.html                   ← Main homepage
+│
+└── <span class="file">RAG_Chatbot_Manual.html</span>     <span class="created">← This manual!</span>
+    </div>
+
+    <h3>3.2 What Each File Does</h3>
+
+    <table>
+        <tr>
+            <th>File</th>
+            <th>Purpose</th>
+            <th>Key Functions</th>
+        </tr>
+        <tr>
+            <td><code>app.py</code></td>
+            <td>FastAPI server - handles all HTTP requests</td>
+            <td>
+                • <code>/chat</code> - receives questions, returns answers<br>
+                • <code>/health</code> - checks if server is running<br>
+                • <code>/reindex</code> - refreshes artwork database
+            </td>
+        </tr>
+        <tr>
+            <td><code>rag.py</code></td>
+            <td>RAG pipeline logic</td>
+            <td>
+                • <code>index_documents()</code> - stores artworks in DB<br>
+                • <code>search_similar()</code> - finds relevant artworks<br>
+                • <code>query_rag()</code> - full RAG pipeline
+            </td>
+        </tr>
+        <tr>
+            <td><code>document_loader.py</code></td>
+            <td>Extracts content from HTML files</td>
+            <td>
+                • <code>load_artwork_from_html()</code> - parses one file<br>
+                • <code>load_all_artworks()</code> - loads all artworks
+            </td>
+        </tr>
+        <tr>
+            <td><code>chat.js</code></td>
+            <td>Frontend chat widget</td>
+            <td>
+                • Opens/closes chat<br>
+                • Sends messages to API<br>
+                • Displays responses
+            </td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 4: IMPLEMENTATION GUIDE -->
+    <h2>4. Implementation Guide</h2>
+
+    <p>Follow these steps in order to get your RAG chatbot running.</p>
+
+    <h3>4.1 Phase 1: Get Your Free Groq API Key</h3>
+
+    <div class="step">
+        <span class="step-number">1</span>
+        <span class="step-title">Create Groq Account</span>
+        <div class="step-content">
+            <p>Open your browser and go to: <strong>https://console.groq.com</strong></p>
+            <p>Click <strong>"Sign Up"</strong> and create an account using Google or email.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">2</span>
+        <span class="step-title">Generate API Key</span>
+        <div class="step-content">
+            <p>Once logged in:</p>
+            <ol>
+                <li>Click <strong>"API Keys"</strong> in the left sidebar</li>
+                <li>Click <strong>"Create API Key"</strong></li>
+                <li>Name it: <code>art-website</code></li>
+                <li>Click <strong>"Submit"</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <span class="step-title">Save Your Key</span>
+        <div class="step-content">
+            <p><strong>IMPORTANT:</strong> Copy and save this key immediately! It will only be shown once.</p>
+            <p>Your key looks like: <code>gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxx</code></p>
+        </div>
+    </div>
+
+    <div class="warning-box">
+        <strong>Keep Your API Key Secret!</strong><br>
+        Never share your API key publicly or commit it to GitHub. Always use environment variables.
+    </div>
+
+    <h3>4.2 Phase 2: Local Testing (Optional but Recommended)</h3>
+
+    <p>Test everything locally before deploying to make sure it works.</p>
+
+    <div class="step">
+        <span class="step-number">1</span>
+        <span class="step-title">Open Terminal</span>
+        <div class="step-content">
+            <p>Open the Terminal application on your Mac.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">2</span>
+        <span class="step-title">Navigate to Backend Folder</span>
+        <div class="step-content">
+            <pre>cd /Users/raginichatterjee/Desktop/Website/backend</pre>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <span class="step-title">Create Virtual Environment</span>
+        <div class="step-content">
+            <pre>python3 -m venv venv</pre>
+            <p>This creates an isolated Python environment for your project.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">4</span>
+        <span class="step-title">Activate Virtual Environment</span>
+        <div class="step-content">
+            <pre>source venv/bin/activate</pre>
+            <p>You should see <code>(venv)</code> appear at the start of your terminal prompt.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">5</span>
+        <span class="step-title">Install Dependencies</span>
+        <div class="step-content">
+            <pre>pip install -r requirements.txt</pre>
+            <p>This installs all required Python packages. May take a few minutes.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">6</span>
+        <span class="step-title">Create Environment File</span>
+        <div class="step-content">
+            <p>Create a file called <code>.env</code> with your API key:</p>
+            <pre>echo "GROQ_API_KEY=gsk_your_actual_key_here" > .env</pre>
+            <p>Replace <code>gsk_your_actual_key_here</code> with your real Groq API key.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">7</span>
+        <span class="step-title">Run the Server</span>
+        <div class="step-content">
+            <pre>python app.py</pre>
+            <p>You should see output like:</p>
+            <pre>Loading embedding model...
+Embedding model loaded!
+Starting up... Indexing artwork documents...
+Loaded: VOICES
+Loaded: BIBBITY BOBBITY BOO
+...
+Successfully indexed 15 documents!
+INFO:     Uvicorn running on http://0.0.0.0:8000</pre>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">8</span>
+        <span class="step-title">Test the API</span>
+        <div class="step-content">
+            <p>Open a browser and go to: <code>http://localhost:8000</code></p>
+            <p>You should see: <code>{"status":"ok","documents_count":15}</code></p>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">9</span>
+        <span class="step-title">Test the Chat</span>
+        <div class="step-content">
+            <p>Open your <code>Index.html</code> file in a browser, click the chat button, and ask a question like "Tell me about Voices".</p>
+        </div>
+    </div>
+
+    <div class="success-box">
+        <strong>Local Testing Complete!</strong><br>
+        If the chatbot responds with information about your paintings, everything is working correctly.
+    </div>
+
+    <div class="page-break"></div>
+
+    <h3>4.3 Phase 3: Deploy Backend to Render (Free)</h3>
+
+    <h4>Step 3A: Create GitHub Repository</h4>
+
+    <div class="step">
+        <span class="step-number">1</span>
+        <span class="step-title">Initialize Git in Backend Folder</span>
+        <div class="step-content">
+            <pre>cd /Users/raginichatterjee/Desktop/Website/backend
+
+# Initialize git repository
+git init
+
+# Create .gitignore to exclude sensitive files
+echo "venv/
+.env
+chroma_db/
+__pycache__/
+*.pyc" > .gitignore
+
+# Add all files
+git add .
+
+# Commit
+git commit -m "Initial backend setup for RAG chatbot"</pre>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">2</span>
+        <span class="step-title">Create Repository on GitHub</span>
+        <div class="step-content">
+            <ol>
+                <li>Go to <strong>https://github.com</strong> and log in</li>
+                <li>Click the <strong>"+"</strong> icon in the top right</li>
+                <li>Select <strong>"New repository"</strong></li>
+                <li>Name it: <code>art-website-backend</code></li>
+                <li>Keep it <strong>Public</strong> (or Private)</li>
+                <li>Do NOT initialize with README</li>
+                <li>Click <strong>"Create repository"</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <span class="step-title">Push Code to GitHub</span>
+        <div class="step-content">
+            <p>Run the commands shown on GitHub (replace YOUR_USERNAME):</p>
+            <pre>git remote add origin https://github.com/YOUR_USERNAME/art-website-backend.git
+git branch -M main
+git push -u origin main</pre>
+        </div>
+    </div>
+
+    <h4>Step 3B: Deploy on Render</h4>
+
+    <div class="step">
+        <span class="step-number">4</span>
+        <span class="step-title">Create Render Account</span>
+        <div class="step-content">
+            <ol>
+                <li>Go to <strong>https://render.com</strong></li>
+                <li>Click <strong>"Get Started for Free"</strong></li>
+                <li>Sign up with GitHub (recommended for easy deployment)</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">5</span>
+        <span class="step-title">Create New Web Service</span>
+        <div class="step-content">
+            <ol>
+                <li>Click <strong>"New +"</strong> button</li>
+                <li>Select <strong>"Web Service"</strong></li>
+                <li>Connect your <code>art-website-backend</code> repository</li>
+                <li>Click <strong>"Connect"</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">6</span>
+        <span class="step-title">Configure Service Settings</span>
+        <div class="step-content">
+            <table>
+                <tr>
+                    <th>Setting</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><code>inside-the-paintbox-api</code></td>
+                </tr>
+                <tr>
+                    <td>Region</td>
+                    <td>Select closest to you</td>
+                </tr>
+                <tr>
+                    <td>Branch</td>
+                    <td><code>main</code></td>
+                </tr>
+                <tr>
+                    <td>Runtime</td>
+                    <td><code>Python 3</code></td>
+                </tr>
+                <tr>
+                    <td>Build Command</td>
+                    <td><code>pip install -r requirements.txt</code></td>
+                </tr>
+                <tr>
+                    <td>Start Command</td>
+                    <td><code>uvicorn app:app --host 0.0.0.0 --port $PORT</code></td>
+                </tr>
+                <tr>
+                    <td>Instance Type</td>
+                    <td><strong>Free</strong></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">7</span>
+        <span class="step-title">Add Environment Variable</span>
+        <div class="step-content">
+            <p>Scroll down to <strong>"Environment Variables"</strong> section:</p>
+            <ol>
+                <li>Click <strong>"Add Environment Variable"</strong></li>
+                <li>Key: <code>GROQ_API_KEY</code></li>
+                <li>Value: <code>gsk_your_actual_api_key</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">8</span>
+        <span class="step-title">Deploy</span>
+        <div class="step-content">
+            <p>Click <strong>"Create Web Service"</strong></p>
+            <p>Render will now build and deploy your backend. This takes about 5-10 minutes for the first deployment.</p>
+            <p>When complete, you'll get a URL like: <code>https://inside-the-paintbox-api.onrender.com</code></p>
+        </div>
+    </div>
+
+    <div class="warning-box">
+        <strong>Note about Free Tier:</strong><br>
+        Render's free tier "sleeps" after 15 minutes of inactivity. The first request after sleeping takes ~30 seconds. This is normal.
+    </div>
+
+    <div class="page-break"></div>
+
+    <h3>4.4 Phase 4: Update Frontend</h3>
+
+    <div class="step">
+        <span class="step-number">1</span>
+        <span class="step-title">Update API URL in chat.js</span>
+        <div class="step-content">
+            <p>Open <code>/Users/raginichatterjee/Desktop/Website/js/chat.js</code></p>
+            <p>Find line 9 and change the URL:</p>
+            <pre>// Change FROM:
+const API_URL = 'http://localhost:8000';
+
+// Change TO (use YOUR Render URL):
+const API_URL = 'https://inside-the-paintbox-api.onrender.com';</pre>
+        </div>
+    </div>
+
+    <h3>4.5 Phase 5: Deploy to Netlify</h3>
+
+    <div class="step">
+        <span class="step-number">1</span>
+        <span class="step-title">Deploy Updated Website</span>
+        <div class="step-content">
+            <p><strong>If connected via Git:</strong></p>
+            <pre>cd /Users/raginichatterjee/Desktop/Website
+git add .
+git commit -m "Add RAG chatbot"
+git push</pre>
+            <p>Netlify will automatically deploy.</p>
+
+            <p><strong>If using drag & drop:</strong></p>
+            <ol>
+                <li>Go to <strong>https://app.netlify.com</strong></li>
+                <li>Drag your Website folder (excluding backend/) to deploy</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 5: TESTING -->
+    <h2>5. Testing & Verification</h2>
+
+    <p>After deployment, verify everything works correctly:</p>
+
+    <h3>Test Checklist</h3>
+
+    <table>
+        <tr>
+            <th>Test</th>
+            <th>How to Test</th>
+            <th>Expected Result</th>
+        </tr>
+        <tr>
+            <td>Backend Health</td>
+            <td>Visit your Render URL in browser</td>
+            <td><code>{"status":"ok","documents_count":15}</code></td>
+        </tr>
+        <tr>
+            <td>Website Loads</td>
+            <td>Visit your Netlify URL</td>
+            <td>Website displays correctly</td>
+        </tr>
+        <tr>
+            <td>Chat Opens</td>
+            <td>Click the chat button</td>
+            <td>Chat widget opens</td>
+        </tr>
+        <tr>
+            <td>Basic Question</td>
+            <td>Ask "Hello"</td>
+            <td>Bot responds with greeting</td>
+        </tr>
+        <tr>
+            <td>Artwork Question</td>
+            <td>Ask "Tell me about Voices"</td>
+            <td>Bot describes the Voices painting</td>
+        </tr>
+        <tr>
+            <td>Series Question</td>
+            <td>Ask "What art series do you have?"</td>
+            <td>Bot lists your series</td>
+        </tr>
+        <tr>
+            <td>Inspiration Question</td>
+            <td>Ask "What inspired the Mythical series?"</td>
+            <td>Bot explains inspiration</td>
+        </tr>
+    </table>
+
+    <h3>Sample Questions to Try</h3>
+
+    <ul class="checklist">
+        <li>"Tell me about the Voices painting"</li>
+        <li>"What art series are available?"</li>
+        <li>"What inspired your artwork?"</li>
+        <li>"Tell me about the artist"</li>
+        <li>"What mediums do you work with?"</li>
+        <li>"Describe the Head in the Clouds series"</li>
+        <li>"What is the meaning behind Trapped?"</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 6: TROUBLESHOOTING -->
+    <h2>6. Troubleshooting</h2>
+
+    <table>
+        <tr>
+            <th>Problem</th>
+            <th>Possible Cause</th>
+            <th>Solution</th>
+        </tr>
+        <tr>
+            <td>"Couldn't connect to my brain"</td>
+            <td>Backend not running or wrong URL</td>
+            <td>
+                1. Check Render dashboard - is service running?<br>
+                2. Verify API_URL in chat.js matches your Render URL<br>
+                3. Check browser console for errors
+            </td>
+        </tr>
+        <tr>
+            <td>"GROQ_API_KEY not set"</td>
+            <td>Missing environment variable</td>
+            <td>Add GROQ_API_KEY in Render dashboard → Environment</td>
+        </tr>
+        <tr>
+            <td>No artworks indexed (count: 0)</td>
+            <td>Document loader can't find HTML files</td>
+            <td>
+                1. Check artwork HTML files exist<br>
+                2. Call /reindex endpoint<br>
+                3. Check Render logs for errors
+            </td>
+        </tr>
+        <tr>
+            <td>Slow first response (~30 seconds)</td>
+            <td>Render free tier sleeping</td>
+            <td>Normal behavior - server wakes up on first request</td>
+        </tr>
+        <tr>
+            <td>CORS error in browser console</td>
+            <td>Cross-origin request blocked</td>
+            <td>Verify CORS settings in app.py include your Netlify domain</td>
+        </tr>
+        <tr>
+            <td>Chat button doesn't open chat</td>
+            <td>JavaScript error</td>
+            <td>Check browser console for errors in chat.js</td>
+        </tr>
+        <tr>
+            <td>Generic/wrong answers</td>
+            <td>Artworks not properly indexed</td>
+            <td>
+                1. Check if HTML files have content in &lt;p&gt; tags<br>
+                2. Reindex: POST to /reindex endpoint
+            </td>
+        </tr>
+    </table>
+
+    <h3>How to Check Render Logs</h3>
+    <ol>
+        <li>Go to <strong>https://dashboard.render.com</strong></li>
+        <li>Click on your web service</li>
+        <li>Click <strong>"Logs"</strong> in the left sidebar</li>
+        <li>Look for error messages</li>
+    </ol>
+
+    <h3>How to Check Browser Console</h3>
+    <ol>
+        <li>Open your website in Chrome/Safari</li>
+        <li>Right-click → <strong>"Inspect"</strong></li>
+        <li>Click <strong>"Console"</strong> tab</li>
+        <li>Look for red error messages</li>
+    </ol>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 7: QUICK REFERENCE -->
+    <h2>7. Quick Reference</h2>
+
+    <h3>Important URLs</h3>
+
+    <table>
+        <tr>
+            <th>Service</th>
+            <th>URL</th>
+        </tr>
+        <tr>
+            <td>Groq Console (API Keys)</td>
+            <td><code>https://console.groq.com</code></td>
+        </tr>
+        <tr>
+            <td>Render Dashboard</td>
+            <td><code>https://dashboard.render.com</code></td>
+        </tr>
+        <tr>
+            <td>Netlify Dashboard</td>
+            <td><code>https://app.netlify.com</code></td>
+        </tr>
+        <tr>
+            <td>GitHub</td>
+            <td><code>https://github.com</code></td>
+        </tr>
+    </table>
+
+    <h3>API Endpoints</h3>
+
+    <table>
+        <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>/</code></td>
+            <td>GET</td>
+            <td>Health check</td>
+        </tr>
+        <tr>
+            <td><code>/health</code></td>
+            <td>GET</td>
+            <td>Health check with stats</td>
+        </tr>
+        <tr>
+            <td><code>/chat</code></td>
+            <td>POST</td>
+            <td>Send message, get AI response</td>
+        </tr>
+        <tr>
+            <td><code>/reindex</code></td>
+            <td>POST</td>
+            <td>Re-index artwork documents</td>
+        </tr>
+        <tr>
+            <td><code>/stats</code></td>
+            <td>GET</td>
+            <td>Get database statistics</td>
+        </tr>
+    </table>
+
+    <h3>Key Files Location</h3>
+
+    <table>
+        <tr>
+            <th>File</th>
+            <th>Path</th>
+        </tr>
+        <tr>
+            <td>Backend Code</td>
+            <td><code>/Users/raginichatterjee/Desktop/Website/backend/</code></td>
+        </tr>
+        <tr>
+            <td>Chat JavaScript</td>
+            <td><code>/Users/raginichatterjee/Desktop/Website/js/chat.js</code></td>
+        </tr>
+        <tr>
+            <td>Main Page</td>
+            <td><code>/Users/raginichatterjee/Desktop/Website/Index.html</code></td>
+        </tr>
+    </table>
+
+    <h3>Common Commands</h3>
+
+    <pre>
+# Activate virtual environment
+cd /Users/raginichatterjee/Desktop/Website/backend
+source venv/bin/activate
+
+# Run backend locally
+python app.py
+
+# Install/update dependencies
+pip install -r requirements.txt
+
+# Push changes to GitHub
+git add .
+git commit -m "Update message"
+git push
+    </pre>
+
+    <h3>Implementation Checklist</h3>
+
+    <ul class="checklist">
+        <li>Get Groq API key from console.groq.com</li>
+        <li>Test backend locally (optional)</li>
+        <li>Create GitHub repository for backend</li>
+        <li>Push backend code to GitHub</li>
+        <li>Create Render account</li>
+        <li>Deploy backend on Render</li>
+        <li>Add GROQ_API_KEY environment variable on Render</li>
+        <li>Update API_URL in chat.js with Render URL</li>
+        <li>Deploy website to Netlify</li>
+        <li>Test chatbot functionality</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- FINAL PAGE -->
+    <div style="text-align: center; padding: 100px 20px;">
+        <h2 style="border: none; margin-bottom: 30px;">Congratulations!</h2>
+        <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+            You now have an AI-powered chatbot on your art website that can intelligently answer questions about your paintings.
+        </p>
+        <br><br>
+        <p style="color: #888;">
+            If you need to make updates to your artwork descriptions, simply edit the HTML files and call the <code>/reindex</code> endpoint to refresh the chatbot's knowledge.
+        </p>
+        <br><br><br>
+        <p style="font-style: italic; color: #aaa;">
+            "Inside the Paintbox" - RAG Chatbot Implementation<br>
+            Manual prepared January 2026
+        </p>
+    </div>
+
+</body>
+</html>
