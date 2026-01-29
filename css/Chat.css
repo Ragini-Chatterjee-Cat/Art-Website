@@ -28,15 +28,14 @@ textarea:focus {
     width: 60px;
     height: 60px;
     background: transparent;
-    border: 2px solid #f4e9d5;
+    border: 2px solid #5c4033;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 28px;
-    color: #f4e9d5;
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    color: #5c4033;
     z-index: 1000;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -55,8 +54,9 @@ textarea:focus {
     right: 30px;
     width: 350px;
     height: 500px;
-    background: rgba(30, 25, 20, 0.92);
-    backdrop-filter: blur(10px);
+    background-image: url('../images/backgrounds/Warm.jpeg');
+    background-size: cover;
+    background-position: center;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     display: none;
@@ -64,6 +64,7 @@ textarea:focus {
     z-index: 999;
     overflow: hidden;
     font-family: 'Gresham', 'Oswald', sans-serif;
+    text-transform: none;
 }
 
 .chat-box.active {
@@ -73,12 +74,12 @@ textarea:focus {
 /* Chat Header */
 .chat-header {
     background: transparent;
-    color: #f4e9d5;
+    color: #5c4033;
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(244, 233, 213, 0.15);
+    border-bottom: 1px solid rgba(92, 64, 51, 0.3);
 }
 
 .chat-header h3 {
@@ -90,7 +91,7 @@ textarea:focus {
 .chat-close {
     background: none;
     border: none;
-    color: #f4e9d5;
+    color: #5c4033;
     font-size: 24px;
     cursor: pointer;
     padding: 0;
@@ -126,8 +127,8 @@ textarea:focus {
 }
 
 .chat-message.bot {
-    background: rgba(244, 233, 213, 0.1);
-    color: #f4e9d5;
+    background: rgba(92, 64, 51, 0.1);
+    color: #5c4033;
     align-self: flex-start;
     border-bottom-left-radius: 5px;
 }
@@ -135,7 +136,7 @@ textarea:focus {
 /* Chat Form */
 .chat-form {
     padding: 20px;
-    border-top: 1px solid rgba(244, 233, 213, 0.15);
+    border-top: 1px solid rgba(92, 64, 51, 0.3);
     background: transparent;
 }
 
@@ -146,10 +147,10 @@ textarea:focus {
 .chat-input {
     width: 100%;
     padding: 12px;
-    border: 1px solid rgba(244, 233, 213, 0.25);
+    border: 1px solid rgba(92, 64, 51, 0.4);
     border-radius: 8px;
     background: transparent;
-    color: #f4e9d5;
+    color: #5c4033;
     font-family: 'Gresham', 'Oswald', sans-serif;
     font-size: 0.95rem;
     font-weight: 300;
@@ -159,13 +160,13 @@ textarea:focus {
 
 .chat-input:focus {
     outline: none;
-    border-color: rgba(244, 233, 213, 0.5);
-    background: rgba(244, 233, 213, 0.05);
+    border-color: rgba(92, 64, 51, 0.6);
+    background: rgba(92, 64, 51, 0.05);
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .chat-input::placeholder {
-    color: rgba(244, 233, 213, 0.5);
+    color: rgba(92, 64, 51, 0.6);
 }
 
 textarea.chat-input {
@@ -177,8 +178,8 @@ textarea.chat-input {
     width: 100%;
     padding: 12px;
     background: transparent;
-    color: #f4e9d5;
-    border: 2px solid #f4e9d5;
+    color: #5c4033;
+    border: 2px solid #5c4033;
     border-radius: 8px;
     font-family: 'Gresham', 'Oswald', sans-serif;
     font-size: 1rem;
@@ -186,10 +187,11 @@ textarea.chat-input {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-transform: none;
 }
 
 .chat-submit:hover {
-    background: rgba(244, 233, 213, 0.1);
+    background: rgba(92, 64, 51, 0.1);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }

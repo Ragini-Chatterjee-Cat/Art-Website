@@ -146,7 +146,7 @@ Please provide a helpful and engaging response:"""
             model="llama-3.3-70b-versatile",
             messages=messages,
             max_tokens=200,
-            temperature=0.4
+            temperature=0
         )
         return response.choices[0].message.content
     except Exception as e:
