@@ -89,59 +89,131 @@ def search_similar(query: str, n_results: int = 3) -> List[Dict]:
     return similar_docs
 
 
-def generate_response(question: str, context_docs: List[Dict]) -> str:
-    """Generate a response using Groq (Llama 3)"""
+def generate_response(question: str, context_docs: List[Dict], conversation_history: List[Dict] = None) -> str:
+    """
+    Generate a response using Two-Step Chain-of-Thought Reasoning.
+    Step 1: Analyze the question and reason about what the user wants
+    Step 2: Generate the final response based on that reasoning
+    """
+    # Filter out low-confidence documents (distance > 1.5 means low relevance)
+    CONFIDENCE_THRESHOLD = 1.5
+    confident_docs = [doc for doc in context_docs if doc.get("distance", 0) < CONFIDENCE_THRESHOLD]
+
     # Build context from retrieved documents
-    context = "\n\n---\n\n".join([doc["content"] for doc in context_docs])
-
-    # System prompt
-    system_prompt = """You are a friendly and knowledgeable art assistant for "Inside the Paintbox",
-the portfolio website of Ragini Chatterjee, a Bangalore-based artist.
-
-Your role is to:
-- Answer questions about Ragini's artworks warmly and engagingly
-- Explain the inspiration, techniques, and meaning behind paintings
-- Help visitors understand the artistic vision and stories in the art
-- Be conversational and welcoming, as if you're giving a gallery tour
-
-If you don't have specific information about something, say so politely and offer to help with what you do know.
-Keep responses concise but informative (2-4 sentences unless more detail is requested)."""
-
-    # User prompt with context
-    user_prompt = f"""Based on the following information about the artworks:
-
-{context}
-
----
-
-Visitor's question: {question}
-
-Please provide a helpful and engaging response:"""
+    if confident_docs:
+        context = "\n\n---\n\n".join([doc["content"] for doc in confident_docs])
+        context_note = ""
+    else:
+        # No confident matches - let the model know
+        context = "\n\n---\n\n".join([doc["content"] for doc in context_docs[:1]])  # Use top result anyway
+        context_note = "\n\n(Note: This context may not be directly relevant.)"
 
     try:
         client = get_groq_client()
-        response = client.chat.completions.create(
+
+        # Build conversation history string for reasoning
+        history_str = ""
+        if conversation_history and len(conversation_history) > 0:
+            recent = conversation_history[-6:]  # Last 3 exchanges
+            history_str = "\n".join([f"{msg['role'].upper()}: {msg['content']}" for msg in recent])
+
+        # ============ STEP 1: REASONING ============
+        reasoning_prompt = f"""You are analyzing a conversation with a visitor to an art portfolio website.
+
+CONVERSATION HISTORY:
+{history_str if history_str else "(This is the first message)"}
+
+CURRENT QUESTION: "{question}"
+
+AVAILABLE CONTEXT ABOUT ARTWORKS:
+{context}{context_note}
+
+Think step by step:
+1. INTENT: What is the user actually asking about? If they use words like "it", "that", "this", "them", "both", or short phrases like "yes", "tell me more" - what are they referring to from the conversation history?
+
+2. RELEVANT INFO: What specific information from the context answers their question? Quote the relevant parts.
+
+3. KEY POINTS: What 1-2 key points should be in the response?
+
+Write your analysis concisely:"""
+
+        reasoning_response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            max_tokens=500,
-            temperature=0.7
+            messages=[{"role": "user", "content": reasoning_prompt}],
+            max_tokens=300,
+            temperature=0
         )
-        return response.choices[0].message.content
+        reasoning = reasoning_response.choices[0].message.content
+        print(f"[REASONING]: {reasoning[:200]}...")  # Debug log (truncated)
+
+        # ============ STEP 2: FINAL RESPONSE ============
+        response_prompt = f"""You are a friendly art assistant for "Inside the Paintbox" by Ragini Chatterjee.
+
+Based on this analysis of what the visitor wants:
+---
+{reasoning}
+---
+
+CONTEXT ABOUT ARTWORKS:
+{context}
+
+Now write your response to the visitor. Guidelines:
+- Be warm and conversational, like giving a gallery tour
+- Keep it concise (1-3 sentences) unless they asked for more detail
+- Only include information from the context - don't make things up
+- If the context doesn't have the answer, say so honestly
+
+Your response:"""
+
+        final_response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": response_prompt}],
+            max_tokens=250,
+            temperature=0
+        )
+
+        return final_response.choices[0].message.content
+
     except Exception as e:
         print(f"Error generating response: {e}")
         return "I apologize, but I'm having trouble responding right now. Please try again in a moment!"
 
 
-def query_rag(question: str) -> str:
-    """Main RAG query function"""
-    # 1. Search for relevant documents
-    similar_docs = search_similar(question, n_results=3)
+def build_search_query(question: str, conversation_history: List[Dict] = None) -> str:
+    """
+    Build an enhanced search query that includes conversation context.
+    This helps with follow-up questions like "What colors does it have?"
+    by including context about what "it" refers to.
+    """
+    if not conversation_history:
+        return question
 
-    # 2. Generate response with context
-    response = generate_response(question, similar_docs)
+    # Get the last few exchanges to understand context
+    recent_history = conversation_history[-4:]  # Last 2 exchanges
+
+    # Extract key context from recent messages
+    context_parts = []
+    for msg in recent_history:
+        if msg["role"] == "user":
+            context_parts.append(msg["content"])
+
+    # Combine current question with recent context for better search
+    # Put current question first (most important), then add context
+    enhanced_query = question + " " + " ".join(context_parts)
+
+    return enhanced_query
+
+
+def query_rag(question: str, conversation_history: List[Dict] = None) -> str:
+    """Main RAG query function"""
+    # 1. Build enhanced search query with conversation context
+    search_query = build_search_query(question, conversation_history)
+
+    # 2. Search for relevant documents using enhanced query
+    similar_docs = search_similar(search_query, n_results=3)
+
+    # 3. Generate response with context and conversation history
+    response = generate_response(question, similar_docs, conversation_history)
 
     return response
 

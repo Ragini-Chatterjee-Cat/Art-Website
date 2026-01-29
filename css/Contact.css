@@ -23,13 +23,11 @@ textarea:focus {
 
 a {
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
 }
 a:hover{
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+   color: #5c4033;
 }
 
 /* Base styles */
@@ -43,8 +41,7 @@ html, body {
    background-position: center;
    background-attachment: fixed;
    background-repeat: no-repeat;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    min-height: 100vh;
    margin: 0;
    padding: 0;
@@ -59,30 +56,26 @@ form {
    font-weight: 200;
    text-align: center;
    text-transform: uppercase;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
 }
 
 h1{
    padding: 10%;
    padding-bottom: 5%;
    font-size: 3rem;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
 }
 
 h6{
    padding-bottom: 10%;
    font-size: 1.3rem;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
 }
 
 label{
    font-size: 1.5rem;
    font-weight: 200;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    display: block;
    margin-top: 15px;
    text-align: center;
@@ -91,11 +84,10 @@ label{
 input[type=text], select, textarea {
    width: 95%;
    background: transparent;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    margin: 2%;
    padding: 2%;
-   border: 1px solid rgba(255,255,255,0.3);
+   border: 1px solid rgba(92, 64, 51, 0.3);
    border-radius: 8px;
    box-sizing: border-box;
    resize: vertical;
@@ -108,7 +100,7 @@ select {
    appearance: none;
    -webkit-appearance: none;
    -moz-appearance: none;
-   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f4e9d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c4033' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
    background-repeat: no-repeat;
    background-position: right 12px center;
    background-size: 20px;
@@ -118,13 +110,13 @@ select {
 
 select option {
    background: rgba(40, 35, 30, 0.98);
-   color: #f4e9d5;
+   color: #5c4033;
    padding: 10px;
    text-transform: none;
 }
 
 select option:disabled {
-   color: rgba(244, 233, 213, 0.5);
+   color: rgba(92, 64, 51, 0.5);
    font-style: italic;
 }
 
@@ -135,9 +127,9 @@ select:hover {
 
 select:focus {
    outline: none;
-   border-color: rgba(0,0,0,0.3);
+   border-color: rgba(92, 64, 51, 0.5);
    background-color: rgba(255, 255, 255, 0.15);
-   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f4e9d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c4033' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
    background-repeat: no-repeat;
    background-position: right 12px center;
    background-size: 20px;
@@ -147,27 +139,24 @@ select:focus {
 /* Placeholder styling */
 input::placeholder,
 textarea::placeholder {
-   color: rgba(244, 233, 213, 0.5);
+   color: rgba(92, 64, 51, 0.5);
    text-transform: none;
    font-style: italic;
    font-weight: 200;
-   text-shadow: none;
 }
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-   color: rgba(244, 233, 213, 0.5);
+   color: rgba(92, 64, 51, 0.5);
    text-transform: none;
    font-style: italic;
-   text-shadow: none;
 }
 
 input::-moz-placeholder,
 textarea::-moz-placeholder {
-   color: rgba(244, 233, 213, 0.5);
+   color: rgba(92, 64, 51, 0.5);
    text-transform: none;
    font-style: italic;
-   text-shadow: none;
 }
 
 input[type=text]:hover, textarea:hover {
@@ -177,18 +166,17 @@ input[type=text]:hover, textarea:hover {
 
 input[type=text]:focus, textarea:focus {
    outline: none;
-   border-color: rgba(0,0,0,0.3);
+   border-color: rgba(92, 64, 51, 0.5);
    background: rgba(255, 255, 255, 0.15);
    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 /* Style the submit button with a specific background color etc */
 input[type=submit] {
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    background: transparent;
    padding: 12px 30px;
-   border: 1px solid rgba(255,255,255,0.3);
+   border: 1px solid rgba(92, 64, 51, 0.3);
    border-radius: 8px;
    cursor: pointer;
    margin: 5%;
@@ -200,21 +188,19 @@ input[type=submit] {
 
 /* When moving the mouse over the submit button, add a darker color */
 input[type=submit]:hover {
-   color: #f4e9d5;
-   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
-   background: rgba(255, 255, 255, 0.15);
-   border-color: rgba(255,255,255,0.4);
+   color: #5c4033;
+   background: rgba(139, 115, 85, 0.2);
+   border-color: rgba(92, 64, 51, 0.5);
    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 input[type=email] {
    width: 95%;
    background: transparent;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    margin: 2%;
    padding: 2%;
-   border: 1px solid rgba(255,255,255,0.3);
+   border: 1px solid rgba(92, 64, 51, 0.3);
    border-radius: 8px;
    box-sizing: border-box;
    font-family: 'Gresham', 'Oswald', sans-serif;
@@ -229,7 +215,7 @@ input[type=email]:hover {
 
 input[type=email]:focus {
    outline: none;
-   border-color: rgba(0,0,0,0.3);
+   border-color: rgba(92, 64, 51, 0.5);
    background: rgba(255, 255, 255, 0.15);
    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
@@ -269,8 +255,7 @@ input[type=email]:focus {
    font-family: 'Gresham', 'Oswald', sans-serif;
    text-transform: uppercase;
    background: transparent;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    padding: 5%;
    display: inline;
 }
@@ -326,14 +311,13 @@ div.dropdown:hover {
 }
 
 .icon-bar a {
-   color: #f4e9d5;
+   color: #5c4033;
    font-size: 1.5rem;
    transition: all 0.3s ease;
 }
 
 .icon-bar a:hover {
    transform: scale(1.2);
-   text-shadow: 0 0 10px rgba(244, 233, 213, 0.5);
 }
 
 /* Tablet styles */

@@ -7,10 +7,9 @@
 // CONFIGURATION - UPDATE THIS AFTER DEPLOYMENT
 // ============================================
 // For local development: 'http://localhost:8000'
-// For production: Replace with your Railway URL
+
 const API_URL = 'https://art-website-production.up.railway.app';
-// const API_URL = 'https://art-website-production.up.railway.app';
-// TODO: After Railway deployment, change to: 'https://your-app.up.railway.app'
+
 
 // ============================================
 // CHAT FUNCTIONALITY
@@ -22,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatBody = document.querySelector('.chat-body');
     const chatForm = document.querySelector('.chat-form');
 
+    // Store conversation history for context
+    let conversationHistory = [];
+
     // Replace the contact form with chat interface
     chatForm.innerHTML = `
         <div class="chat-input-container">
@@ -29,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 type="text"
                 id="userMessage"
                 class="chat-input"
-                placeholder="Ask about my artwork..."
-                autocomplete="off"
+                placeholder="Ask for any queries..."
+                autocomplete="on"
             >
             <button type="button" id="sendBtn" class="chat-send-btn">
                 <i class="fa fa-paper-plane"></i>
@@ -83,13 +85,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const typingIndicator = addTypingIndicator();
 
         try {
-            // Call the RAG API
+            // Call the RAG API with conversation history
             const response = await fetch(`${API_URL}/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({
+                    message: message,
+                    history: conversationHistory
+                })
             });
 
             if (!response.ok) {
@@ -102,11 +107,20 @@ document.addEventListener('DOMContentLoaded', function() {
             typingIndicator.remove();
             addMessage(data.response, 'bot');
 
+            // Update conversation history
+            conversationHistory.push({ role: 'user', content: message });
+            conversationHistory.push({ role: 'assistant', content: data.response });
+
+            // Keep only last 12 messages (6 exchanges) to avoid token limits
+            if (conversationHistory.length > 12) {
+                conversationHistory = conversationHistory.slice(-12);
+            }
+
         } catch (error) {
             console.error('Chat error:', error);
             typingIndicator.remove();
             addMessage(
-                "I'm sorry, I couldn't connect to my brain right now. Please make sure the server is running, or try again later!",
+                "I'm sorry, can't connect to the server right now. Please try again later.",
                 'bot'
             );
         }
@@ -151,8 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
         styles.textContent = `
             /* User messages */
             .chat-message.user {
-                background: rgba(244, 233, 213, 0.15);
-                color: #f4e9d5;
+                background: rgba(92, 64, 51, 0.15);
+                color: #5c4033;
                 align-self: flex-end;
                 border-bottom-right-radius: 5px;
             }
@@ -175,8 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: 45px;
                 border-radius: 50%;
                 background: transparent;
-                border: 2px solid #f4e9d5;
-                color: #f4e9d5;
+                border: 2px solid #5c4033;
+                color: #5c4033;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
@@ -186,8 +200,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             .chat-send-btn:hover {
-                background: rgba(244, 233, 213, 0.15);
-                color: #f4e9d5;
+                background: rgba(92, 64, 51, 0.15);
+                color: #5c4033;
             }
 
             /* Typing indicator */
@@ -200,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .typing-dot {
                 width: 8px;
                 height: 8px;
-                background: #f4e9d5;
+                background: #5c4033;
                 border-radius: 50%;
                 animation: typingBounce 1.4s infinite ease-in-out both;
             }

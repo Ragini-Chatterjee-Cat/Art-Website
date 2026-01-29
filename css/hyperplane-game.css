@@ -126,7 +126,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 2px solid #f4e9d5;
+    border: 2px solid #5c4033;
 }
 
 .legend-dot.dark {
@@ -177,7 +177,7 @@
     width: 100%;
     background: transparent;
     border: none;
-    color: #f4e9d5;
+    color: #5c4033;
     font-family: 'Courier New', monospace;
     font-size: 1rem;
     resize: none;
@@ -328,7 +328,7 @@
 .game-btn {
     background: rgba(139, 115, 85, 0.4);
     border: 2px solid rgba(244, 233, 213, 0.4);
-    color: #f4e9d5;
+    color: #5c4033;
     padding: 12px 30px;
     border-radius: 12px;
     font-size: 1rem;
@@ -392,7 +392,7 @@
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 20px;
-    color: #f4e9d5;
+    color: #5c4033;
 }
 
 .hint-box code {
@@ -829,14 +829,14 @@
 
 .level-dot.current {
     border-color: rgba(212, 165, 116, 0.8);
-    color: #f4e9d5;
+    color: #5c4033;
     background: rgba(139, 115, 85, 0.4);
 }
 
 .level-dot.completed {
     border-color: rgba(212, 165, 116, 0.8);
     background: rgba(139, 115, 85, 0.6);
-    color: #f4e9d5;
+    color: #5c4033;
 }
 
 .level-dot.completed::after {

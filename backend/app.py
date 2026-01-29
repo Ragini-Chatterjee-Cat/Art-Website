@@ -72,8 +72,13 @@ app.add_middleware(
 
 
 # Request/Response Models
+class ChatMessage(BaseModel):
+    role: str  # "user" or "assistant"
+    content: str
+
 class ChatRequest(BaseModel):
     message: str
+    history: list[ChatMessage] = []  # Conversation history
 
 class ChatResponse(BaseModel):
     response: str
@@ -118,7 +123,9 @@ async def chat(request: ChatRequest):
         raise HTTPException(status_code=400, detail="Message cannot be empty")
 
     try:
-        response = query_rag(request.message)
+        # Convert history to list of dicts for the RAG function
+        history = [{"role": msg.role, "content": msg.content} for msg in request.history]
+        response = query_rag(request.message, history)
         return ChatResponse(response=response)
     except Exception as e:
         print(f"Error in chat endpoint: {e}")
