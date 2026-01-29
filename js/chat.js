@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatBody = document.querySelector('.chat-body');
     const chatForm = document.querySelector('.chat-form');
 
+    // Store conversation history for context
+    let conversationHistory = [];
+
     // Replace the contact form with chat interface
     chatForm.innerHTML = `
         <div class="chat-input-container">
@@ -82,13 +85,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const typingIndicator = addTypingIndicator();
 
         try {
-            // Call the RAG API
+            // Call the RAG API with conversation history
             const response = await fetch(`${API_URL}/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({
+                    message: message,
+                    history: conversationHistory
+                })
             });
 
             if (!response.ok) {
@@ -100,6 +106,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove typing indicator and show response
             typingIndicator.remove();
             addMessage(data.response, 'bot');
+
+            // Update conversation history
+            conversationHistory.push({ role: 'user', content: message });
+            conversationHistory.push({ role: 'assistant', content: data.response });
+
+            // Keep only last 12 messages (6 exchanges) to avoid token limits
+            if (conversationHistory.length > 12) {
+                conversationHistory = conversationHistory.slice(-12);
+            }
 
         } catch (error) {
             console.error('Chat error:', error);
