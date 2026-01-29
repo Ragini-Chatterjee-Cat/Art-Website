@@ -7,10 +7,9 @@
 // CONFIGURATION - UPDATE THIS AFTER DEPLOYMENT
 // ============================================
 // For local development: 'http://localhost:8000'
-// For production: Replace with your Railway URL
+
 const API_URL = 'https://art-website-production.up.railway.app';
-// const API_URL = 'https://art-website-production.up.railway.app';
-// TODO: After Railway deployment, change to: 'https://your-app.up.railway.app'
+
 
 // ============================================
 // CHAT FUNCTIONALITY
@@ -29,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 type="text"
                 id="userMessage"
                 class="chat-input"
-                placeholder="Ask about my artwork..."
-                autocomplete="off"
+                placeholder="Ask for any queries..."
+                autocomplete="on"
             >
             <button type="button" id="sendBtn" class="chat-send-btn">
                 <i class="fa fa-paper-plane"></i>
@@ -106,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Chat error:', error);
             typingIndicator.remove();
             addMessage(
-                "I'm sorry, I couldn't connect to my brain right now. Please make sure the server is running, or try again later!",
+                "I'm sorry, can't connect to the server right now. Please try again later.",
                 'bot'
             );
         }
