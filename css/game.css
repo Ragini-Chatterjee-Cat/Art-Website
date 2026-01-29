@@ -89,7 +89,7 @@
 .feature-btn {
     background: rgba(139, 115, 85, 0.2);
     border: 2px solid rgba(244, 233, 213, 0.3);
-    color: #f4e9d5;
+    color: #5c4033;
     padding: 15px 30px;
     border-radius: 12px;
     font-size: 1.1rem;
@@ -158,7 +158,7 @@
 
 .node-box {
     fill: rgba(139, 115, 85, 0.6);
-    stroke: #f4e9d5;
+    stroke: #5c4033;
     stroke-width: 2;
     rx: 10;
     ry: 10;
@@ -173,7 +173,7 @@
 }
 
 .node-text {
-    fill: #f4e9d5;
+    fill: #5c4033;
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
     text-anchor: middle;
@@ -184,7 +184,7 @@
 }
 
 .node-entropy {
-    fill: #f4e9d5;
+    fill: #5c4033;
     font-family: 'Oswald', sans-serif;
     font-size: 11px;
     text-anchor: middle;
@@ -196,14 +196,14 @@
 }
 
 .tree-edge {
-    stroke: #f4e9d5;
+    stroke: #5c4033;
     stroke-width: 2;
     fill: none;
     opacity: 0.7;
 }
 
 .edge-label {
-    fill: #f4e9d5;
+    fill: #5c4033;
     font-family: 'Oswald', sans-serif;
     font-size: 10px;
     text-anchor: middle;
@@ -326,7 +326,7 @@
 .game-btn {
     background: rgba(139, 115, 85, 0.4);
     border: 2px solid rgba(244, 233, 213, 0.4);
-    color: #f4e9d5;
+    color: #5c4033;
     padding: 12px 30px;
     border-radius: 12px;
     font-size: 1rem;

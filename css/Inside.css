@@ -45,20 +45,17 @@ body{
 
 a{
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
 }
 a:hover{
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+   color: #5c4033;
 }
 
 header{
    width:100%;
    letter-spacing: 0.2rem;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    font-family: 'Gresham', 'Oswald', sans-serif;
    font-weight: 200;
    text-align: center;
@@ -88,8 +85,7 @@ img{
 
 h2, span, p{
    font-family: 'Gresham', 'Oswald', sans-serif;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    text-align: center;
    font-weight: 200;
 }
@@ -140,8 +136,7 @@ p{
    font-family: 'Gresham', 'Oswald', sans-serif;
    text-transform: uppercase;
    background: transparent;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    padding: 5%;
    display: inline;
 }
@@ -221,8 +216,7 @@ div.dropdown:hover {
 
 a{
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    margin: 0%;
    padding: 0%;
    background: transparent;
@@ -231,27 +225,23 @@ a{
 a:link{
    background: transparent;
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
 }
 
 a:visited{
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
 }
 
 main{
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    font-family: 'Gresham', 'Oswald', sans-serif;
 }
 
 /* Style the button that is used to open and close the collapsible content */
 button {
    background-color: transparent;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    cursor: pointer;
    padding: 18px;
    width: 100%;
@@ -285,8 +275,7 @@ div.icon-bar {
 
 .icon-bar a {
    text-decoration: none;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    align-items: center;
    padding: 16px;
    transition: all 0.3s ease;
@@ -294,14 +283,13 @@ div.icon-bar {
 }
 
 .icon-bar a:hover {
-   color: #f4e9d5;
-   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+   color: #5c4033;
    background-color: rgba(139, 115, 85, 0.2);
    border-radius: 50%;
 }
 
 #ME{
-   font-weight: 400;
+   font-weight: 200;
    padding: 10%;
    display: block;
    justify-content: center;
@@ -324,6 +312,7 @@ div.icon-bar {
    word-spacing: 0.25rem;
    font-size: 1.4rem;
    line-height: 1.4;
+   text-transform: none;
 }
 
 h2{
@@ -418,8 +407,7 @@ h2{
    margin-top: 0.3rem;
    font-size: 0.25rem;
    font-weight: 200;
-   color: #f4e9d5;
-   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    text-transform: uppercase;
    letter-spacing: 0.02rem;
    opacity: 0;
@@ -438,8 +426,7 @@ h2{
    margin-top: 0.1rem;
    font-size: 0.2rem;
    font-weight: 200;
-   color: #f4e9d5;
-   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    opacity: 0;
    transition: all 0.6s ease-in-out;
    text-align: center;
@@ -496,7 +483,7 @@ h2{
 }
 
 .carousel-dot.active {
-   background: #f4e9d5;
+   background: #5c4033;
    transform: scale(1.3);
 }
 
@@ -545,10 +532,9 @@ h2{
    margin-top: 1rem;
    padding: 8px 20px;
    background: transparent;
-   border: 1px solid rgba(244, 233, 213, 0.4);
+   border: 1px solid rgba(92, 64, 51, 0.4);
    border-radius: 8px;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    font-family: 'Gresham', 'Oswald', sans-serif;
    font-size: 0.9rem;
    text-transform: uppercase;
@@ -559,7 +545,7 @@ h2{
 
 .read-more-btn:hover {
    background: rgba(139, 115, 85, 0.3);
-   border-color: rgba(244, 233, 213, 0.6);
+   border-color: rgba(92, 64, 51, 0.6);
 }
 
 /* Feature Buttons (About page) */
@@ -577,10 +563,9 @@ h2{
    display: inline-block;
    padding: 25px 30px;
    background: transparent;
-   border: 2px solid rgba(244, 233, 213, 0.5);
+   border: 2px solid rgba(92, 64, 51, 0.5);
    border-radius: 12px;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    font-family: 'Gresham', 'Oswald', sans-serif;
    font-size: 1.1rem;
    font-weight: 200;
@@ -593,10 +578,10 @@ h2{
 
 .feature-btn:hover {
    background: rgba(139, 115, 85, 0.4);
-   border-color: rgba(244, 233, 213, 0.7);
+   border-color: rgba(92, 64, 51, 0.7);
    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
    transform: translateY(-2px);
-   color: #f4e9d5;
+   color: #5c4033;
    text-decoration: none;
 }
 
@@ -610,10 +595,9 @@ h2{
    display: inline-block;
    padding: 15px 40px;
    background: transparent;
-   border: 2px solid rgba(244, 233, 213, 0.5);
+   border: 2px solid rgba(92, 64, 51, 0.5);
    border-radius: 12px;
-   color: #f4e9d5;
-   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+   color: #5c4033;
    font-family: 'Gresham', 'Oswald', sans-serif;
    font-size: 1.3rem;
    font-weight: 200;
@@ -625,10 +609,10 @@ h2{
 
 .commission-btn:hover {
    background: rgba(139, 115, 85, 0.4);
-   border-color: rgba(244, 233, 213, 0.7);
+   border-color: rgba(92, 64, 51, 0.7);
    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
    transform: translateY(-2px);
-   color: #f4e9d5;
+   color: #5c4033;
    text-decoration: none;
 }
 
