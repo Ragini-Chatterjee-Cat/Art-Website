@@ -165,8 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
         styles.textContent = `
             /* User messages */
             .chat-message.user {
-                background: rgba(244, 233, 213, 0.15);
-                color: #f4e9d5;
+                background: rgba(92, 64, 51, 0.15);
+                color: #5c4033;
                 align-self: flex-end;
                 border-bottom-right-radius: 5px;
             }
@@ -189,8 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: 45px;
                 border-radius: 50%;
                 background: transparent;
-                border: 2px solid #f4e9d5;
-                color: #f4e9d5;
+                border: 2px solid #5c4033;
+                color: #5c4033;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
@@ -200,8 +200,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             .chat-send-btn:hover {
-                background: rgba(244, 233, 213, 0.15);
-                color: #f4e9d5;
+                background: rgba(92, 64, 51, 0.15);
+                color: #5c4033;
             }
 
             /* Typing indicator */
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .typing-dot {
                 width: 8px;
                 height: 8px;
-                background: #f4e9d5;
+                background: #5c4033;
                 border-radius: 50%;
                 animation: typingBounce 1.4s infinite ease-in-out both;
             }

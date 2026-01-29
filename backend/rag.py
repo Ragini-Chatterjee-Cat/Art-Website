@@ -154,12 +154,40 @@ Please provide a helpful and engaging response:"""
         return "I apologize, but I'm having trouble responding right now. Please try again in a moment!"
 
 
+def build_search_query(question: str, conversation_history: List[Dict] = None) -> str:
+    """
+    Build an enhanced search query that includes conversation context.
+    This helps with follow-up questions like "What colors does it have?"
+    by including context about what "it" refers to.
+    """
+    if not conversation_history:
+        return question
+
+    # Get the last few exchanges to understand context
+    recent_history = conversation_history[-4:]  # Last 2 exchanges
+
+    # Extract key context from recent messages
+    context_parts = []
+    for msg in recent_history:
+        if msg["role"] == "user":
+            context_parts.append(msg["content"])
+
+    # Combine current question with recent context for better search
+    # Put current question first (most important), then add context
+    enhanced_query = question + " " + " ".join(context_parts)
+
+    return enhanced_query
+
+
 def query_rag(question: str, conversation_history: List[Dict] = None) -> str:
     """Main RAG query function"""
-    # 1. Search for relevant documents
-    similar_docs = search_similar(question, n_results=3)
+    # 1. Build enhanced search query with conversation context
+    search_query = build_search_query(question, conversation_history)
 
-    # 2. Generate response with context and conversation history
+    # 2. Search for relevant documents using enhanced query
+    similar_docs = search_similar(search_query, n_results=3)
+
+    # 3. Generate response with context and conversation history
     response = generate_response(question, similar_docs, conversation_history)
 
     return response
