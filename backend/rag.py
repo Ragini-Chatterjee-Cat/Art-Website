@@ -90,7 +90,11 @@ def search_similar(query: str, n_results: int = 3) -> List[Dict]:
 
 
 def generate_response(question: str, context_docs: List[Dict], conversation_history: List[Dict] = None) -> str:
-    """Generate a response using Groq (Llama 3)"""
+    """
+    Generate a response using Two-Step Chain-of-Thought Reasoning.
+    Step 1: Analyze the question and reason about what the user wants
+    Step 2: Generate the final response based on that reasoning
+    """
     # Filter out low-confidence documents (distance > 1.5 means low relevance)
     CONFIDENCE_THRESHOLD = 1.5
     confident_docs = [doc for doc in context_docs if doc.get("distance", 0) < CONFIDENCE_THRESHOLD]
@@ -102,55 +106,74 @@ def generate_response(question: str, context_docs: List[Dict], conversation_hist
     else:
         # No confident matches - let the model know
         context = "\n\n---\n\n".join([doc["content"] for doc in context_docs[:1]])  # Use top result anyway
-        context_note = "\n\nNote: The retrieved information may not be directly relevant to this question. If unsure, acknowledge that you don't have specific information about this topic."
-
-    # System prompt
-    system_prompt = """You are a friendly and knowledgeable art assistant for "Inside the Paintbox",
-the portfolio website of Ragini Chatterjee.
-
-Your role is to:
-- Explain the inspiration, techniques, and meaning behind paintings
-- Be conversational and welcoming, as if you're giving a gallery tour
-- If asked about a certain artwork on the site, provide details about that specific piece
-
-IMPORTANT: You are having a multi-turn conversation. When the user sends short follow-up messages like "yes", "yes both", "tell me more", "go on", etc., refer back to your previous messages to understand what they're asking about. Do NOT treat these as new standalone questions - they are responses to what you just said.
-
-If you don't have specific information about something, say so honestly and offer to help with what you do know.
-Keep responses concise but informative (1-2 sentences unless more detail is requested).
-Always base your answers on the provided context. Do not make up information that isn't in the context."""
-
-    # User prompt with context
-    user_prompt = f"""Based on the following information about the artworks:
-
-{context}{context_note}
-
----
-
-Visitor's question: {question}
-
-Please provide a helpful and engaging response:"""
+        context_note = "\n\n(Note: This context may not be directly relevant.)"
 
     try:
         client = get_groq_client()
 
-        # Build messages array with conversation history
-        messages = [{"role": "system", "content": system_prompt}]
+        # Build conversation history string for reasoning
+        history_str = ""
+        if conversation_history and len(conversation_history) > 0:
+            recent = conversation_history[-6:]  # Last 3 exchanges
+            history_str = "\n".join([f"{msg['role'].upper()}: {msg['content']}" for msg in recent])
 
-        # Add conversation history if provided (last 6 exchanges max to stay within context limits)
-        if conversation_history:
-            for msg in conversation_history[-12:]:  # Last 6 exchanges (12 messages)
-                messages.append({"role": msg["role"], "content": msg["content"]})
+        # ============ STEP 1: REASONING ============
+        reasoning_prompt = f"""You are analyzing a conversation with a visitor to an art portfolio website.
 
-        # Add current question with context
-        messages.append({"role": "user", "content": user_prompt})
+CONVERSATION HISTORY:
+{history_str if history_str else "(This is the first message)"}
 
-        response = client.chat.completions.create(
+CURRENT QUESTION: "{question}"
+
+AVAILABLE CONTEXT ABOUT ARTWORKS:
+{context}{context_note}
+
+Think step by step:
+1. INTENT: What is the user actually asking about? If they use words like "it", "that", "this", "them", "both", or short phrases like "yes", "tell me more" - what are they referring to from the conversation history?
+
+2. RELEVANT INFO: What specific information from the context answers their question? Quote the relevant parts.
+
+3. KEY POINTS: What 1-2 key points should be in the response?
+
+Write your analysis concisely:"""
+
+        reasoning_response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            messages=messages,
-            max_tokens=200,
+            messages=[{"role": "user", "content": reasoning_prompt}],
+            max_tokens=300,
             temperature=0
         )
-        return response.choices[0].message.content
+        reasoning = reasoning_response.choices[0].message.content
+        print(f"[REASONING]: {reasoning[:200]}...")  # Debug log (truncated)
+
+        # ============ STEP 2: FINAL RESPONSE ============
+        response_prompt = f"""You are a friendly art assistant for "Inside the Paintbox" by Ragini Chatterjee.
+
+Based on this analysis of what the visitor wants:
+---
+{reasoning}
+---
+
+CONTEXT ABOUT ARTWORKS:
+{context}
+
+Now write your response to the visitor. Guidelines:
+- Be warm and conversational, like giving a gallery tour
+- Keep it concise (1-3 sentences) unless they asked for more detail
+- Only include information from the context - don't make things up
+- If the context doesn't have the answer, say so honestly
+
+Your response:"""
+
+        final_response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": response_prompt}],
+            max_tokens=250,
+            temperature=0
+        )
+
+        return final_response.choices[0].message.content
+
     except Exception as e:
         print(f"Error generating response: {e}")
         return "I apologize, but I'm having trouble responding right now. Please try again in a moment!"
